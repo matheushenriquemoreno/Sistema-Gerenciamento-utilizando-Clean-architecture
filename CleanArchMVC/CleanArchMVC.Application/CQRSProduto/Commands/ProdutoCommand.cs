@@ -16,6 +16,6 @@ namespace CleanArchMVC.Application.Produtos.Commands
         public decimal Preco { get; set; }
         public int Estoque { get; set; }
         public string Image { get; set; }
-        public Categoria Categoria  { get; set; }
+        public int IdCategoria { get; set; }
     }
 }

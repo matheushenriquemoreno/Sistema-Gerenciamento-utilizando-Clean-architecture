@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using CleanArchMVC.Application.DTOS;
 using CleanArchMVC.Application.Interfaces;
 using CleanArchMVC.Domain.Entities;
@@ -39,7 +34,6 @@ namespace CleanArchMVC.Application.Services
         public async Task<IEnumerable<CategoriaDTO>> GetCategorias()
         {
             var categorias = await _repositorioCategoria.ObterTodosAsync();
-
 
             return _mapper.Map<IEnumerable<CategoriaDTO>>(categorias);
         }

@@ -10,6 +10,7 @@ using CleanArchMVC.Application.CQRSProduto.Commands;
 using CleanArchMVC.Application.CQRSProduto.Handlers;
 using CleanArchMVC.Application.DTOS;
 using CleanArchMVC.Application.Interfaces;
+using CleanArchMVC.Application.Produtos.Commands;
 using CleanArchMVC.Application.Produtos.Queries;
 using CleanArchMVC.Domain.Entities;
 using CleanArchMVC.Domain.Interfaces;
@@ -22,60 +23,55 @@ namespace CleanArchMVC.Application.Services
     public class ProdutoService : IProdutoService
     {
         private readonly IMapper _mapper;
-        private readonly IMediator _Mediator;
+        private readonly IMediator _mediator;
+        private readonly ICategoriaService _categoriaService;
 
-        public ProdutoService(IMapper mapper, IMediator mediator)
+        public ProdutoService(IMapper mapper, IMediator mediator, ICategoriaService categoriaService)
         {
             _mapper = mapper;
-            _Mediator = mediator;
+            _mediator = mediator;
+            _categoriaService = categoriaService;
         }
 
-        //public async Task Add(ProdutoDTO categoriaDTO)
-        //{
+        public async Task Add(ProdutoDTO produtoDTO)
+        {
+            var produtoCommand = _mapper.Map<ProdutoCreateCommand>(produtoDTO);
 
+            var produtoAdicionado = await _mediator.Send(produtoCommand);
 
+            await _mediator.Publish(new NotificarCriarProdutoNotification(JsonConvert.SerializeObject(produtoAdicionado, Formatting.Indented)));
+        }
 
-        //    var produto = _mapper.Map<Produto>(categoriaDTO);
+        public async Task<ProdutoDTO> GetProdutoByID(int id)
+        {
+            var queryBuscarProdutoQuery = new GetProdutoByIdQuery(id);
 
-        //    await _repositorioProduto.Adicionar(produto);
-        //}
+            var produto = await _mediator.Send(queryBuscarProdutoQuery);
 
-        //public async Task<ProdutoDTO> GetProdutoAndCategoria(int id)
-        //{
-        //   var produto = await  _repositorioProduto.BuscarProdutoComCategoriaPeloId(id);
-
-        //    return _mapper.Map<ProdutoDTO>(produto);
-        //}
-
-        //public async Task<ProdutoDTO> GetProdutoByID(int id)
-        //{
-        //    var produto = await _repositorioProduto.ObterPorIdAsync(id);
-
-        //    return _mapper.Map<ProdutoDTO>(produto);
-        //}
+            return _mapper.Map<ProdutoDTO>(produto);
+        }
 
         public async Task<IEnumerable<ProdutoDTO>> GetProdutos()
         {
             var produtosQuery = new GetProdutosQuery();
 
-            var produtos = await _Mediator.Send(produtosQuery);
-
-            _Mediator.Publish(new NotificarCriarProdutoNotification(JsonConvert.SerializeObject(produtos, Formatting.Indented)));
+            var produtos = await _mediator.Send(produtosQuery);
 
             return _mapper.Map<IEnumerable<ProdutoDTO>>(produtos);
         }
 
         public async Task Remove(int id)
         {
-            //var produto = _repositorioProduto.ObterPorIdAsync(id).Result;
-            //await _repositorioProduto.Remover(produto);
+            var produtoCommand = new ProdutoRemoveCommand(id);
+
+            await _mediator.Send(produtoCommand);
         }
 
-        public async Task Update(ProdutoDTO categoriaDTO)
+        public async Task Update(ProdutoDTO produtoDTO)
         {
-            var produto = _mapper.Map<Produto>(categoriaDTO);
+            var updateCommand = _mapper.Map<ProdutoUpdateCommand>(produtoDTO);
 
-            //await _repositorioProduto.Update(produto);
+            await _mediator.Send(updateCommand);
         }
     }
 }
