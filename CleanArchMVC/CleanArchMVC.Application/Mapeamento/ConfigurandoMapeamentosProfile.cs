@@ -14,7 +14,7 @@ namespace CleanArchMVC.Application.Mapeamento
         public ConfigurandoMapeamentosProfile()
         {
             CreateMap<Categoria, CategoriaDTO>().ReverseMap();
-            CreateMap<Produto, ProdutoDTO>().ReverseMap();
+            CreateMap<Produto, ProdutoDTO>().BeforeMap((p,d) => d.IdCategoria = p.Categoria?.Id ).ReverseMap();
         }
     }
 }
