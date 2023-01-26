@@ -18,7 +18,8 @@
     <div class="col-md-12">
         <div>
             <div class="pull-left">
-                <a asp-action="Create" class="btn btn-primary">
+                <a asp-action="Cadastrar" class="btn btn-primary">
+                    <i class="bi bi-plus"></i>
                     <span title="Register New" class="fas fa-plus"></span> Novo produto
                 </a>
             </div>
@@ -56,12 +57,34 @@
                         @Html.DisplayFor(modelItem => item.Preco)
                     </td>
                     <td>
-                        <a asp-action="Edit" asp-route-id="@item.Id" title="Edit" class="btn btn-secondary">
-                            <span class="fas fa-edit">Editar</span>
-                        </a>
-                        <a asp-action="Delete" asp-route-id="@item.Id" title="Delete" class="btn btn-danger">
-                            <span class="fas fa-trash-alt">Delete</span>
-                        </a>
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                Ações
+                            </button>
+
+                            <ul class="dropdown-menu dropdown-menu-dark">
+                                <li>
+                                    <a asp-action="Editar" asp-route-id="@item.Id" title="Edit" class="dropdown-item d-flex gap-2 align-items-center">
+                                        <i class="bi bi-sliders"></i>
+                                        Editar
+                                    </a>
+                                </li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li>
+                                    <a asp-action="Delete" asp-route-id="@item.Id" class="dropdown-item d-flex gap-2 align-items-center">
+                                        <i class="bi bi-x-square"></i>
+                                        Excluir
+                                    </a>
+                                </li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li>
+                                    <a asp-action="VisualizarProduto" asp-route-id="@item.Id" title="Delete" class="dropdown-item d-flex gap-2 align-items-center">
+                                        <i class="bi bi-chevron-bar-right"></i>
+                                        visualizar
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
                     </td>
                 </tr>
             }

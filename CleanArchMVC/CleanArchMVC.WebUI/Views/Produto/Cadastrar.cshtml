@@ -1,0 +1,63 @@
+﻿@model CleanArchMVC.Application.DTOS.ProdutoDTO
+
+
+<script>
+    localStorage.setItem("Categorias", ViewBag.CategoriasTela);
+</script>
+
+
+<script>
+    
+</script>
+
+@{
+    var metodo = Model != null && Model.Id > 0 ? new { tipo = "Editar", acao = "Editar" } : new { tipo = "Cadastro De", acao = "Cadastrar" };
+}
+
+<div>
+    <h2 class="text-center">@metodo.tipo produto:</h2>
+</div>
+
+<div class="container col-10 shadow rounded-3 mt-4" id="form-validation">
+
+    <form asp-action="@metodo.acao" method="post" class="row g-3 p-2" id="form-produto">
+        <div class="col-md-12 ">
+            <label for="nome">Nome produto:</label>
+            <input asp-for="Nome" class="form-control" id="email">
+            <span asp-validation-for="Nome"class="text-danger"></span>
+        </div>
+
+        <div class="col-md-12">
+            <label for="nome">Descrição Produto:</label>
+            <input asp-for="Descricao" class="form-control" id="email">
+            <span asp-validation-for="Descricao" class="text-danger"></span>
+        </div>
+
+        <div class="col-md-6">
+            <label class="form-label">Preço:</label>
+            <input asp-for="Preco" class="form-control" placeholder="10,00">
+            <span asp-validation-for="Preco" class="text-danger"></span>
+        </div>
+        <div class="col-md-6">
+            <label class="form-label">numero:</label>
+            <input asp-for="Estoque" class="form-control" placeholder="0">
+            <span asp-validation-for="Estoque" class="text-danger"></span>
+        </div>
+
+        <div class="col-md-12">
+            <label class="form-label">url da imagem:</label>
+            <input asp-for="Image" class="form-control" placeholder="" >
+            <span asp-validation-for="Image" class="text-danger"></span>
+        </div>
+        <div class="col-md-12">
+            <label class="form-label">Categorias:</label>
+            <select asp-for="IdCategoria" class="form-select" placeholder="Categorias" asp-items="ViewBag.CategoriasTela"> </select>
+        </div>
+
+        <div class="col-md-12 d-flex justify-content-end mb-3">
+            <input type="submit" value="@metodo.acao" class="btn btn-outline-dark m-1" />
+            <a asp-action="Index" class="btn btn-outline-info m-1">Voltar</a>
+        </div>
+    </form>
+</div>
+
