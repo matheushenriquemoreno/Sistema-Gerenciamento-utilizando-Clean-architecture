@@ -22,20 +22,20 @@ namespace CleanArchMVC.Application.DTOS
         [MaxLength(150)]
         public string Descricao { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Preço obrigatorio")]
         [DisplayFormat(DataFormatString = "{0:C2}")]
-        [DataType(DataType.Currency)]
+        [DataType(DataType.Currency, ErrorMessage = "Valor digitado não e valido")]
         public decimal Preco { get; set; }
 
-        [Required]
-        [Range(1,9999)]
+        [Required(ErrorMessage = "Estoque obrigatorio")]
+        [Range(1,9999, ErrorMessage = "teste")]
         public int Estoque { get; set; }
-        [Required]
+
+        [Required(ErrorMessage = "Imagem obrigatorio")]
         public string Image { get; set; }
 
         [Required]
-        public int IdCategoria { get; set; }
-
+        public int? IdCategoria { get; set; }
 
         public Categoria Categoria { get; set; }
 

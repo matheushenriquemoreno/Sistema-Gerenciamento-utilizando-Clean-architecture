@@ -4,24 +4,27 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using CleanArchMVC.Application.CQRSProduto.Commands;
+using CleanArchMVC.Application.Interfaces.Fila;
 using MediatR;
 
 namespace CleanArchMVC.Application.CQRSProduto.Handlers
 {
-    internal class NotificarCriarProdutoHandler : INotificationHandler<NotificarCriarProdutoNotification>
+    internal class NotificarCriarProdutoHandler //: INotificationHandler<NotificarCriarProdutoNotification>
     {
-        public Task Handle(NotificarCriarProdutoNotification notification, CancellationToken cancellationToken)
-        {
 
-            return Task.Run(() =>
-            {
-                var dados = 20000;
+        //private readonly IQueueEnvioEmail _filaEnvioEmail;
 
-                for (int i = 0; i <= dados; i++)
-                {
-                    Console.WriteLine("Count: " + i +"\n" + notification.dados);
-                }
-            });
-        }
+        //public NotificarCriarProdutoHandler(IQueueEnvioEmail filaEnvioEmail)
+        //{
+        //    _filaEnvioEmail = filaEnvioEmail;
+        //}
+
+        //public Task Handle(NotificarCriarProdutoNotification notification, CancellationToken cancellationToken)
+        //{
+        //    return Task.Run(() =>
+        //    {
+        //        _filaEnvioEmail.EnvioEmail(notification);
+        //    });
+        //}
     }
 }

@@ -1,15 +1,17 @@
 ﻿using CleanArchMVC.Application.DTOS;
 using CleanArchMVC.Application.Interfaces;
 using CleanArchMVC.Domain.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace CleanArchMVC.WebUI.Controllers
 {
+    [Authorize]
     public class ProdutoController : Controller
     {
-       private readonly IProdutoService _produtoService;
-       private readonly ICategoriaService _categoriaService;
+        private readonly IProdutoService _produtoService;
+        private readonly ICategoriaService _categoriaService;
 
         public ProdutoController(IProdutoService produtoService, ICategoriaService categoriaService)
         {
@@ -26,9 +28,10 @@ namespace CleanArchMVC.WebUI.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> VisualizarProduto(int id)
+        public IActionResult VisualizarProduto(int id)
         {
-            var result = await _produtoService.GetProdutoByID(id);
+
+            var result = _produtoService.GetProdutoByID(id).Result;
 
             return View(result);
         }
@@ -77,7 +80,12 @@ namespace CleanArchMVC.WebUI.Controllers
             return View("Cadastrar", produto);
         }
 
-
-
+        [Authorize(Roles = "Admin")]
+        [HttpDelete]
+        public async Task<IActionResult> ExcluirProduto(int id)
+        {
+            await _produtoService.Remove(id);
+            return Ok();
+        }
     }
 }

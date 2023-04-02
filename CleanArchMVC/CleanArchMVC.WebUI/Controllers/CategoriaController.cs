@@ -1,10 +1,12 @@
 ﻿using CleanArchMVC.Application.DTOS;
 using CleanArchMVC.Application.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace CleanArchMVC.WebUI.Controllers
 {
+    [Authorize]
     public class CategoriaController : Controller
     {
         private readonly ICategoriaService _categoriaService;
@@ -17,6 +19,8 @@ namespace CleanArchMVC.WebUI.Controllers
         [HttpGet]
         public async Task<IActionResult> Index()
         {
+            var user = Request.HttpContext.User;
+
             var result = await _categoriaService.GetCategorias();
 
             return View(result);
@@ -35,7 +39,7 @@ namespace CleanArchMVC.WebUI.Controllers
         {
             if (ModelState.IsValid)
             {
-                await _categoriaService.Adicionar(categoria);
+                await _categoriaService.Add(categoria);
                 return RedirectToAction(nameof(Index));
             }
 

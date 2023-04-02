@@ -6,10 +6,14 @@ using System.Threading.Tasks;
 using CleanArchMVC.Application.Interfaces;
 using CleanArchMVC.Application.Mapeamento;
 using CleanArchMVC.Application.Services;
+using CleanArchMVC.Domain.Account;
 using CleanArchMVC.Domain.Interfaces;
 using CleanArchMVC.Infra.Data.Context;
+using CleanArchMVC.Infra.Data.Identity;
+using CleanArchMVC.Infra.Data.Identity.Services;
 using CleanArchMVC.Infra.Data.Repositorios;
 using MediatR;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -30,6 +34,7 @@ namespace CleanArchMVC.Infra.IOC
             service.AddAutoMapper(typeof(ConfigurandoMapeamentosProfile));
 
             AdiconarDependenciaBibliotecaMidiaTr(service);
+            AdicionarServicosDoIdentity(service);
 
             service.AddScoped<IRepositorioCategoria, RepositorioCategoria>();
             service.AddScoped<IRepositorioProduto, RepositorioProduto>();
@@ -39,7 +44,19 @@ namespace CleanArchMVC.Infra.IOC
             return service;
         }
 
-        public static void AdiconarDependenciaBibliotecaMidiaTr(IServiceCollection service)
+
+        private static void AdicionarServicosDoIdentity(IServiceCollection services)
+        {
+            services.AddIdentity<AplicationUser, IdentityRole>()
+                .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddDefaultTokenProviders();
+
+            services.AddScoped<IAutentificate, AuthenticateService>();
+            services.AddScoped<ISeedUserRoleInitial, SeedUserRoleInitial>();
+        }
+
+
+        private static void AdiconarDependenciaBibliotecaMidiaTr(IServiceCollection service)
         {
             var handdlers = AppDomain.CurrentDomain.Load("CleanArchMVC.Application");
 

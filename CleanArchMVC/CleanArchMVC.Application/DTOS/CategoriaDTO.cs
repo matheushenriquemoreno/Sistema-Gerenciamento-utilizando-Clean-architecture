@@ -12,6 +12,6 @@ namespace CleanArchMVC.Application.DTOS
         [MaxLength(100)]
         public string Nome { get; set; }
 
-        public IEnumerable<Produto> Produtos { get; set; }
+        public IEnumerable<ProdutoDTO> Produtos { get; set; }
     }
 }

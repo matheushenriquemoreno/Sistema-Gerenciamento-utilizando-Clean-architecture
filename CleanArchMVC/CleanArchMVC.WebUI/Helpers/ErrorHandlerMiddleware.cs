@@ -13,7 +13,6 @@ namespace CleanArchMVC.WebUI.Helpers
             _next = next;
         }
 
-
         public async Task Invoke(HttpContext context)
         {
             try
@@ -25,7 +24,6 @@ namespace CleanArchMVC.WebUI.Helpers
                 var controllerDoErro = String.Join("-",context.Request.RouteValues.Values);
  
                 Console.WriteLine("Chamando Middleware global" + controllerDoErro);
-                
             }
         }
     }

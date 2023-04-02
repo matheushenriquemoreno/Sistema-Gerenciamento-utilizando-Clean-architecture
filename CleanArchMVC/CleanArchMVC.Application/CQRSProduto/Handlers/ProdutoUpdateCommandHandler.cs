@@ -28,7 +28,7 @@ namespace CleanArchMVC.Application.CQRSProduto.Handlers
             if (produto == null)
                 throw new ArgumentNullException(nameof(produto));
 
-            var categoria = await repositorioCategoria.ObterPorIdAsync(request.Id);
+            var categoria = await repositorioCategoria.ObterPorIdAsync(request.IdCategoria);
 
             if (categoria == null)
                 throw new ArgumentNullException(nameof(categoria));

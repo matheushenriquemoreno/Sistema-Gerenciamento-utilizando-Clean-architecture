@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿
+using System.Linq.Expressions;
 using CleanArchMVC.Domain.Entities;
 using CleanArchMVC.Domain.Interfaces;
 using CleanArchMVC.Infra.Data.Context;
@@ -17,7 +14,6 @@ namespace CleanArchMVC.Infra.Data.Repositorios
         {
         }
 
-
         public override async Task<Categoria> ObterPorIdAsync(int id)
         {
             var categoria = await _context.Set<Categoria>()
@@ -27,6 +23,30 @@ namespace CleanArchMVC.Infra.Data.Repositorios
 
             return categoria;
         }
+
+        public void teste<ToutraProperty>(List<Expression<Func<Categoria, IEnumerable<ToutraProperty>>>> expression) where ToutraProperty : class
+        {
+            var categoria = ObterTodosLazy();
+
+            foreach (var include in expression) {
+
+                categoria.Include(include);
+            }
+
+            var categorias = categoria.ToList();
+        }
+
+
+        public void teste2()
+        {
+            var lista = new List<Expression<Func<Categoria, IEnumerable<Produto>>>>();
+
+            lista.Add(Categoria => Categoria.Produtos);
+
+            teste<Produto>(lista);
+
+        }
+
 
     }
 }

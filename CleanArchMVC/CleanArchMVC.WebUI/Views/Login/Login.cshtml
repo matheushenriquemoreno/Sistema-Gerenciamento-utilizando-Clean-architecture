@@ -1,0 +1,43 @@
+﻿@model CleanArchMVC.WebUI.ViewModels.LoginViewModel
+
+@{
+    Layout = "_LayoutImports";
+}
+
+
+
+<div class="container">
+
+    <div class="row justify-content-center" style="margin-top: 150px;">
+        <div class="col-lg-4 col-md-6 col-sm-8 bg-light shadow p-3 rounded-3">
+            <h2 class="text-center mb-4">Login</h2>
+            <hr>
+            <form asp-controller="Login" asp-action="Login" method="post">
+                <div asp-validation-summary="All" class="text-danger"></div>
+                <div class="mb-2">
+                    <label asp-for="Email" class="form-label">Email:</label>
+                    <input asp-for="Email" class="form-control">
+                </div>
+                <div class="mb-2">
+                    <label asp-for="Senha" class="form-label">Senha:</label>
+                    <input asp-for="Senha" class="form-control" placeholder="*******">
+                </div>
+
+
+                <div class="row mt-2 p-2">
+                    <div class="col-4"> <button type="submit" class="btn btn-primary"> Entrar </button></div>
+
+                    <div class="col-8 text-end"> <a class="btn btn-link"> Registrar? </a></div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
